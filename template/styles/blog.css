@@ -1,27 +1,123 @@
-/* next-blog-kit theme hooks.
+/* next-blog-kit theme layer.
  *
  * Import this once in your root layout or globals.css:
  *   @import "../styles/blog.css";    (adjust the path to where it was copied)
  *
- * The blog components use two kinds of design tokens:
+ * ── Picking a theme ─────────────────────────────────────────────────────────
+ * Five accent presets ship below. "ember" is the default (:root). To use
+ * another, set a data attribute on <html> in your root layout:
  *
- * 1. Blog accent variables (defined here — override to match your brand):
- *    --blog-accent             primary accent (links, highlights, buttons)
- *    --blog-accent-foreground  text color on top of --blog-accent
- *    --blog-accent-2           secondary accent (tinted surfaces)
+ *   <html lang="en" data-blog-theme="aurora">
  *
- * 2. Semantic Tailwind tokens (border, card, foreground, muted-foreground).
- *    If your app already uses shadcn/ui-style tokens, you have these and
- *    nothing more is needed. Otherwise uncomment the fallback block below.
+ * ember    amber + indigo   warm, editorial (default)
+ * aurora   violet + cyan    vivid, tech
+ * meadow   emerald + sky    calm, natural
+ * rosewood rose + purple    bold, lifestyle
+ * glacier  sky + slate      cool, minimal
+ *
+ * Or ignore the presets and set the three variables yourself:
+ *   --blog-accent             primary accent (links, highlights, buttons)
+ *   --blog-accent-foreground  text color on top of --blog-accent
+ *   --blog-accent-2           secondary accent (tinted surfaces, chips)
+ *
+ * The components also use semantic Tailwind tokens (border, card, foreground,
+ * muted-foreground). shadcn/ui-style apps already have these; otherwise
+ * uncomment the fallback block at the bottom.
  */
 
-:root {
+:root,
+[data-blog-theme="ember"] {
   --blog-accent: #f59e0b;
   --blog-accent-foreground: #1a1207;
   --blog-accent-2: #6366f1;
 }
 
-/* ── Fallback semantic tokens (Tailwind v4) ─────────────────────────────
+[data-blog-theme="aurora"] {
+  --blog-accent: #8b5cf6;
+  --blog-accent-foreground: #f5f3ff;
+  --blog-accent-2: #06b6d4;
+}
+
+[data-blog-theme="meadow"] {
+  --blog-accent: #10b981;
+  --blog-accent-foreground: #04120c;
+  --blog-accent-2: #0ea5e9;
+}
+
+[data-blog-theme="rosewood"] {
+  --blog-accent: #f43f5e;
+  --blog-accent-foreground: #fff1f2;
+  --blog-accent-2: #a855f7;
+}
+
+[data-blog-theme="glacier"] {
+  --blog-accent: #38bdf8;
+  --blog-accent-foreground: #04121c;
+  --blog-accent-2: #64748b;
+}
+
+/* ── Base article polish ────────────────────────────────────────────────────
+ * Refinements the typography plugin doesn't give you, scoped to .blog-prose
+ * so they never leak into the host app. Plain CSS on purpose — works
+ * regardless of the host's Tailwind theme.
+ */
+
+.blog-prose a {
+  color: var(--blog-accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklch, var(--blog-accent) 35%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s ease;
+}
+.blog-prose a:hover {
+  text-decoration-color: var(--blog-accent);
+}
+
+/* Anchored headings shouldn't hide under a sticky header when TOC-jumped. */
+.blog-prose h2,
+.blog-prose h3 {
+  scroll-margin-top: 6rem;
+}
+
+.blog-prose blockquote {
+  border-left-color: var(--blog-accent);
+  font-style: normal;
+}
+
+.blog-prose :not(pre) > code {
+  background: color-mix(in oklch, var(--blog-accent-2) 12%, transparent);
+  border-radius: 0.375rem;
+  padding: 0.125rem 0.375rem;
+  font-weight: 500;
+}
+.blog-prose :not(pre) > code::before,
+.blog-prose :not(pre) > code::after {
+  content: none; /* drop the typography plugin's backticks */
+}
+
+.blog-prose pre {
+  border: 1px solid color-mix(in oklch, currentColor 12%, transparent);
+  border-radius: 0.75rem;
+}
+
+.blog-prose img {
+  border-radius: 0.75rem;
+}
+
+.blog-prose hr {
+  border-color: color-mix(in oklch, currentColor 12%, transparent);
+}
+
+.blog-prose ::selection {
+  background: color-mix(in oklch, var(--blog-accent) 30%, transparent);
+}
+
+.blog-prose thead {
+  border-bottom-color: var(--blog-accent);
+}
+
+/* ── Fallback semantic tokens (Tailwind v4) ─────────────────────────────────
  * Only for apps WITHOUT shadcn/ui-style theme tokens. Uncomment and tune.
  *
  * @theme {

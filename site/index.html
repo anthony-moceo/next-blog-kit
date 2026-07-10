@@ -17,9 +17,15 @@
     --text: #e8eaf0;
     --muted: #9aa1b5;
     --accent: #f59e0b;
+    --accent-fg: #1a1207;
     --accent-2: #6366f1;
     --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
   }
+  /* The same five presets the kit ships in styles/blog.css */
+  [data-blog-theme="aurora"]   { --accent: #8b5cf6; --accent-fg: #f5f3ff; --accent-2: #06b6d4; }
+  [data-blog-theme="meadow"]   { --accent: #10b981; --accent-fg: #04120c; --accent-2: #0ea5e9; }
+  [data-blog-theme="rosewood"] { --accent: #f43f5e; --accent-fg: #fff1f2; --accent-2: #a855f7; }
+  [data-blog-theme="glacier"]  { --accent: #38bdf8; --accent-fg: #04121c; --accent-2: #64748b; }
   * { box-sizing: border-box; margin: 0; }
   html { scroll-behavior: smooth; }
   body {
@@ -52,7 +58,7 @@
   }
   .install .dollar { color: var(--accent-2); user-select: none; }
   .install button {
-    background: var(--accent); color: #1a1207; border: 0; border-radius: 8px;
+    background: var(--accent); color: var(--accent-fg); border: 0; border-radius: 8px;
     padding: 6px 14px; font: 600 13px/1.4 inherit; cursor: pointer;
   }
   .install button:hover { opacity: .9; }
@@ -60,7 +66,7 @@
   .btn {
     display: inline-block; padding: 11px 22px; border-radius: 10px; font-weight: 600; font-size: 15px;
   }
-  .btn-primary { background: var(--accent); color: #1a1207; }
+  .btn-primary { background: var(--accent); color: var(--accent-fg); }
   .btn-ghost { border: 1px solid var(--border); color: var(--text); }
   .btn:hover { text-decoration: none; opacity: .92; }
   .badges { margin-top: 34px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
@@ -68,6 +74,15 @@
     font-size: 12px; font-family: var(--mono); color: var(--muted);
     border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; background: var(--surface);
   }
+  .themes { margin-top: 30px; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .themes .label { font-size: 13px; color: var(--muted); margin-right: 4px; }
+  .swatch {
+    width: 26px; height: 26px; border-radius: 999px; cursor: pointer; padding: 0;
+    border: 2px solid transparent; background: linear-gradient(135deg, var(--sw1) 50%, var(--sw2) 50%);
+    transition: transform .12s ease, border-color .12s ease;
+  }
+  .swatch:hover { transform: scale(1.12); }
+  .swatch[aria-pressed="true"] { border-color: var(--text); }
 
   section { padding: 64px 0; border-top: 1px solid var(--border); }
   h2 { font-size: 28px; letter-spacing: -0.01em; margin-bottom: 8px; }
@@ -150,6 +165,14 @@
       <span class="badge">TypeScript strict</span>
       <span class="badge">Zero runtime deps of its own</span>
       <span class="badge">MIT</span>
+    </div>
+    <div class="themes" role="group" aria-label="Accent theme presets">
+      <span class="label">Ships with five accent presets — try them:</span>
+      <button class="swatch" data-theme="ember" title="ember — amber + indigo" aria-pressed="true" style="--sw1:#f59e0b;--sw2:#6366f1"></button>
+      <button class="swatch" data-theme="aurora" title="aurora — violet + cyan" aria-pressed="false" style="--sw1:#8b5cf6;--sw2:#06b6d4"></button>
+      <button class="swatch" data-theme="meadow" title="meadow — emerald + sky" aria-pressed="false" style="--sw1:#10b981;--sw2:#0ea5e9"></button>
+      <button class="swatch" data-theme="rosewood" title="rosewood — rose + purple" aria-pressed="false" style="--sw1:#f43f5e;--sw2:#a855f7"></button>
+      <button class="swatch" data-theme="glacier" title="glacier — sky + slate" aria-pressed="false" style="--sw1:#38bdf8;--sw2:#64748b"></button>
     </div>
   </div>
 
@@ -247,7 +270,7 @@ Opening that answers the search intent...
       <div class="trust">
         <ul>
           <li><strong>Next.js 15+</strong> (App Router) — routes use Promise-based params. Continuously tested against 15 and latest in CI, including a timezone-shifted production build.</li>
-          <li><strong>Tailwind CSS 4</strong> + <code class="inline">@tailwindcss/typography</code>. Components use shadcn-style semantic tokens; a documented fallback block covers apps without them.</li>
+          <li><strong>Tailwind CSS 4</strong> + <code class="inline">@tailwindcss/typography</code>. Components use shadcn-style semantic tokens; a documented fallback block covers apps without them. Five accent presets included (<code class="inline">data-blog-theme</code>) — the switcher in the hero above is running them.</li>
           <li><strong>A <code class="inline">@/*</code> path alias</strong> (the create-next-app default). The installer checks and tells you if it's missing.</li>
           <li><strong>MDX is code.</strong> Posts can run arbitrary JSX at build time — by design, for content you author. Don't pipe untrusted user submissions into <code class="inline">content/blog/</code>.</li>
           <li><strong>You own the code.</strong> This is a copy-in, not a dependency: upgrade by choice, customize without forking, remove by deleting the files.</li>
@@ -268,6 +291,26 @@ Opening that answers the search intent...
     <div>MIT licensed. Extracted from a production blog.</div>
   </div>
 </footer>
+
+<script>
+  (function () {
+    var saved = localStorage.getItem("blog-theme");
+    if (saved) apply(saved);
+    document.querySelectorAll(".swatch").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        apply(btn.dataset.theme);
+        localStorage.setItem("blog-theme", btn.dataset.theme);
+      });
+    });
+    function apply(theme) {
+      if (theme === "ember") delete document.documentElement.dataset.blogTheme;
+      else document.documentElement.dataset.blogTheme = theme;
+      document.querySelectorAll(".swatch").forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.theme === theme));
+      });
+    }
+  })();
+</script>
 
 </body>
 </html>

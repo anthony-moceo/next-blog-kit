@@ -84,7 +84,23 @@ it also works as a CI content gate:
 
 ## Theming
 
-Components use two accent variables (set in `styles/blog.css`):
+Five accent presets ship in `styles/blog.css`. Pick one with a data attribute
+on `<html>` in your root layout:
+
+```tsx
+<html lang="en" data-blog-theme="aurora">
+```
+
+| Theme | Palette | Feel |
+|---|---|---|
+| `ember` (default) | amber + indigo | warm, editorial |
+| `aurora` | violet + cyan | vivid, tech |
+| `meadow` | emerald + sky | calm, natural |
+| `rosewood` | rose + purple | bold, lifestyle |
+| `glacier` | sky + slate | cool, minimal |
+
+Each preset just sets three variables — override them directly for a custom
+brand:
 
 | Variable | Role |
 |---|---|
@@ -92,9 +108,13 @@ Components use two accent variables (set in `styles/blog.css`):
 | `--blog-accent-foreground` | text on accent-colored buttons |
 | `--blog-accent-2` | tinted surfaces (category chips, CTA backgrounds) |
 
-They also use shadcn/ui-style semantic tokens (`border`, `card`, `foreground`,
-`muted-foreground`). If your app doesn't define those, uncomment the fallback
-block in `styles/blog.css`.
+`blog.css` also includes a base polish layer scoped to `.blog-prose`
+(underline treatment, TOC scroll margins, accent blockquotes, inline-code
+chips, selection color) that adapts to whichever theme is active.
+
+Components additionally use shadcn/ui-style semantic tokens (`border`, `card`,
+`foreground`, `muted-foreground`). If your app doesn't define those, uncomment
+the fallback block in `styles/blog.css`.
 
 ## The taxonomy (read this before adding categories)
 
