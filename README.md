@@ -1,5 +1,11 @@
 # nextjs-blog-kit
 
+[![CI](https://github.com/anthony-moceo/nextjs-blog-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/anthony-moceo/nextjs-blog-kit/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/nextjs-blog-kit)](https://www.npmjs.com/package/nextjs-blog-kit)
+[![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+
+**Docs & demo:** [nextjs-blog-kit-phi.vercel.app](https://nextjs-blog-kit-phi.vercel.app)
+
 A copy-in MDX blog for Next.js (App Router). One command drops a complete,
 SEO-serious blog into your repo — you own the code, shadcn-style. Plus an
 optional [Claude Code](https://claude.com/claude-code) skill that writes
