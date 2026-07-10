@@ -4,12 +4,13 @@
  *   @import "../styles/blog.css";    (adjust the path to where it was copied)
  *
  * ── Picking a theme ─────────────────────────────────────────────────────────
- * Five accent presets ship below. "ember" is the default (:root). To use
+ * Six accent presets ship below. "indigo" is the default (:root). To use
  * another, set a data attribute on <html> in your root layout:
  *
  *   <html lang="en" data-blog-theme="aurora">
  *
- * ember    amber + indigo   warm, editorial (default)
+ * indigo   indigo + sky     classic, professional (default)
+ * ember    amber + indigo   warm, editorial
  * aurora   violet + cyan    vivid, tech
  * meadow   emerald + sky    calm, natural
  * rosewood rose + purple    bold, lifestyle
@@ -37,6 +38,12 @@
  */
 
 :root,
+[data-blog-theme="indigo"] {
+  --blog-accent: #4f46e5;
+  --blog-accent-foreground: #ffffff;
+  --blog-accent-2: #0284c7;
+  --blog-accent-2-foreground: #ffffff;
+}
 [data-blog-theme="ember"] {
   --blog-accent: #b45309;
   --blog-accent-foreground: #ffffff;
@@ -71,6 +78,12 @@
 /* Dark values, media-query strategy. */
 @media (prefers-color-scheme: dark) {
   :root,
+  [data-blog-theme="indigo"] {
+    --blog-accent: #818cf8;
+    --blog-accent-foreground: #1e1b4b;
+    --blog-accent-2: #38bdf8;
+    --blog-accent-2-foreground: #082f49;
+  }
   [data-blog-theme="ember"] {
     --blog-accent: #f59e0b;
     --blog-accent-foreground: #1a1207;
@@ -105,6 +118,12 @@
 
 /* Dark values, class strategy (`.dark` on <html>, shadcn/next-themes style). */
 .dark,
+.dark[data-blog-theme="indigo"] {
+  --blog-accent: #818cf8;
+  --blog-accent-foreground: #1e1b4b;
+  --blog-accent-2: #38bdf8;
+  --blog-accent-2-foreground: #082f49;
+}
 .dark[data-blog-theme="ember"] {
   --blog-accent: #f59e0b;
   --blog-accent-foreground: #1a1207;

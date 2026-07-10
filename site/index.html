@@ -16,12 +16,13 @@
     --border: #262b3a;
     --text: #e8eaf0;
     --muted: #9aa1b5;
-    --accent: #f59e0b;
-    --accent-fg: #1a1207;
-    --accent-2: #818cf8;
+    --accent: #818cf8;
+    --accent-fg: #1e1b4b;
+    --accent-2: #38bdf8;
     --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
   }
-  /* The same five presets the kit ships in styles/blog.css */
+  /* The same presets the kit ships in styles/blog.css (dark values — this page is dark) */
+  [data-blog-theme="ember"]    { --accent: #f59e0b; --accent-fg: #1a1207; --accent-2: #818cf8; }
   [data-blog-theme="aurora"]   { --accent: #a78bfa; --accent-fg: #2e1065; --accent-2: #22d3ee; }
   [data-blog-theme="meadow"]   { --accent: #34d399; --accent-fg: #022c22; --accent-2: #38bdf8; }
   [data-blog-theme="rosewood"] { --accent: #fb7185; --accent-fg: #4c0519; --accent-2: #c084fc; }
@@ -168,7 +169,8 @@
     </div>
     <div class="themes" role="group" aria-label="Accent theme presets">
       <span class="label">Ships with five accent presets — try them:</span>
-      <button class="swatch" data-theme="ember" title="ember — amber + indigo" aria-pressed="true" style="--sw1:#f59e0b;--sw2:#818cf8"></button>
+      <button class="swatch" data-theme="indigo" title="indigo — indigo + sky (default)" aria-pressed="true" style="--sw1:#818cf8;--sw2:#38bdf8"></button>
+      <button class="swatch" data-theme="ember" title="ember — amber + indigo" aria-pressed="false" style="--sw1:#f59e0b;--sw2:#818cf8"></button>
       <button class="swatch" data-theme="aurora" title="aurora — violet + cyan" aria-pressed="false" style="--sw1:#a78bfa;--sw2:#22d3ee"></button>
       <button class="swatch" data-theme="meadow" title="meadow — emerald + sky" aria-pressed="false" style="--sw1:#34d399;--sw2:#38bdf8"></button>
       <button class="swatch" data-theme="rosewood" title="rosewood — rose + purple" aria-pressed="false" style="--sw1:#fb7185;--sw2:#c084fc"></button>
@@ -303,7 +305,7 @@ Opening that answers the search intent...
       });
     });
     function apply(theme) {
-      if (theme === "ember") delete document.documentElement.dataset.blogTheme;
+      if (theme === "indigo") delete document.documentElement.dataset.blogTheme;
       else document.documentElement.dataset.blogTheme = theme;
       document.querySelectorAll(".swatch").forEach(function (b) {
         b.setAttribute("aria-pressed", String(b.dataset.theme === theme));

@@ -90,7 +90,7 @@ it also works as a CI content gate:
 
 ## Theming
 
-Five accent presets ship in `styles/blog.css`. Pick one with a data attribute
+Six accent presets ship in `styles/blog.css`. Pick one with a data attribute
 on `<html>` in your root layout:
 
 ```tsx
@@ -99,7 +99,8 @@ on `<html>` in your root layout:
 
 | Theme | Palette | Feel |
 |---|---|---|
-| `ember` (default) | amber + indigo | warm, editorial |
+| `indigo` (default) | indigo + sky | classic, professional |
+| `ember` | amber + indigo | warm, editorial |
 | `aurora` | violet + cyan | vivid, tech |
 | `meadow` | emerald + sky | calm, natural |
 | `rosewood` | rose + purple | bold, lifestyle |

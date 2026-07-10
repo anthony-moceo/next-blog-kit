@@ -1,6 +1,6 @@
 {
   "name": "nextjs-blog-kit",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Copy-in MDX blog for Next.js App Router: topic hubs, pagination, JSON-LD, RSS, sitemap, CTAs \u2014 plus a Claude Code skill for writing articles with optional AI hero images.",
   "license": "MIT",
   "type": "module",
