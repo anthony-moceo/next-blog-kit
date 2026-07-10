@@ -3,6 +3,7 @@ import {
   getPostBySlug,
   getAllPosts,
   getRelatedPosts,
+  getAdjacentPosts,
   getPrimaryCategory,
   getCategoriesForPost,
   formatBlogDate,
@@ -18,6 +19,7 @@ import { Callout, InfoCard, QuickRef, Verdict, Divider } from "@/components/blog
 import { BlogCTAInline, BlogCTABottom, BlogCTASidebar } from "@/components/blog/blog-cta";
 import { JsonLd, buildArticleJsonLd, buildFaqJsonLd } from "@/lib/blog/json-ld";
 import { Breadcrumbs } from "@/components/blog/breadcrumbs";
+import { TableOfContents } from "@/components/blog/toc";
 import { isValidElement, type ComponentProps, type ReactNode } from "react";
 
 interface Props {
@@ -134,33 +136,6 @@ function extractHeadings(content: string): { text: string; id: string }[] {
   return headings;
 }
 
-function TableOfContents({
-  headings,
-}: {
-  headings: { text: string; id: string }[];
-}) {
-  if (headings.length < 2) return null;
-  return (
-    <nav aria-label="Table of contents" className="mb-10 p-5 rounded-xl border border-border/40 bg-card/50 backdrop-blur-sm">
-      <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">
-        In this article
-      </h2>
-      <ul className="space-y-2">
-        {headings.map((h) => (
-          <li key={h.id}>
-            <a
-              href={`#${h.id}`}
-              className="text-sm text-muted-foreground hover:text-[var(--blog-accent)] transition-colors"
-            >
-              {h.text}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  );
-}
-
 interface MdxRoot {
   children: Array<{ type: string; [key: string]: unknown }>;
 }
@@ -214,6 +189,7 @@ export default async function BlogPostPage({ params }: Props) {
   if (!post) notFound();
 
   const related = getRelatedPosts(slug, post.tags);
+  const { newer, older } = getAdjacentPosts(slug);
   const headings = extractHeadings(post.content);
   const primary = getPrimaryCategory(post);
   const categories = getCategoriesForPost(post);
@@ -233,49 +209,54 @@ export default async function BlogPostPage({ params }: Props) {
     <>
       <JsonLd data={articleData} />
       {faqData && <JsonLd data={faqData} />}
-      <main className="min-h-screen pt-8 pb-16 px-6">
-        <div className="mx-auto max-w-5xl xl:flex xl:gap-0 xl:justify-center">
-        <article className="max-w-3xl">
-          <div className="mb-6">
+      <main className="min-h-screen px-6 pb-16 pt-8">
+        <div className="mx-auto max-w-5xl xl:flex xl:justify-center xl:gap-0">
+        <article className="min-w-0 max-w-3xl">
+          <div className="mb-8">
             <Breadcrumbs items={breadcrumbItems} />
           </div>
 
-          {post.heroImage && (
-            <div className="relative w-full h-64 sm:h-80 mb-8 rounded-xl overflow-hidden">
-              <Image
-                src={post.heroImage}
-                alt={post.heroAlt || post.title}
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 672px, 768px"
-                className="object-cover"
-                priority
-              />
+          {/* Article header: eyebrow chips → title → meta → hero */}
+          <header className="mb-10">
+            {categories.length > 0 && (
+              <div className="mb-4 flex flex-wrap gap-2">
+                {categories.map((c) => (
+                  <Link
+                    key={c.slug}
+                    href={`/blog/topic/${c.slug}`}
+                    className="rounded-full bg-[var(--blog-accent-2)]/15 px-2.5 py-1 text-xs font-medium text-[var(--blog-accent)] transition-colors hover:bg-[var(--blog-accent-2)]/30"
+                  >
+                    {c.title}
+                  </Link>
+                ))}
+              </div>
+            )}
+
+            <h1 className="text-3xl font-bold leading-tight tracking-tight [text-wrap:balance] sm:text-4xl lg:text-5xl">
+              {post.title}
+            </h1>
+
+            <div className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
+              <span className="font-medium text-foreground">{post.author}</span>
+              <span aria-hidden="true">·</span>
+              <time>{formatBlogDate(post.date)}</time>
+              <span aria-hidden="true">·</span>
+              <span>{post.readingTime} min read</span>
             </div>
-          )}
 
-          <time className="text-sm text-muted-foreground">
-            {formatBlogDate(post.date)}
-          </time>
-          <span className="text-sm text-muted-foreground mx-2">·</span>
-          <span className="text-sm text-muted-foreground">{post.author}</span>
-
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-6 leading-tight tracking-tight">
-            {post.title}
-          </h1>
-
-          {categories.length > 0 && (
-            <div className="flex gap-2 mb-10 flex-wrap">
-              {categories.map((c) => (
-                <Link
-                  key={c.slug}
-                  href={`/blog/topic/${c.slug}`}
-                  className="text-xs px-2.5 py-1 rounded-full bg-[var(--blog-accent-2)]/20 text-[var(--blog-accent)] font-medium hover:bg-[var(--blog-accent-2)]/30 transition-colors"
-                >
-                  {c.title}
-                </Link>
-              ))}
-            </div>
-          )}
+            {post.heroImage && (
+              <div className="relative mt-8 h-64 w-full overflow-hidden rounded-2xl sm:h-80 lg:h-96">
+                <Image
+                  src={post.heroImage}
+                  alt={post.heroAlt || post.title}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 672px, 768px"
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            )}
+          </header>
 
           <TableOfContents headings={headings} />
 
@@ -292,8 +273,8 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
 
           {/* Author section */}
-          <div className="mt-12 pt-8 border-t border-border/40 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-[var(--blog-accent-2)] flex items-center justify-center text-[var(--blog-accent)] font-bold text-base">
+          <div className="mt-12 flex items-center gap-4 border-t border-border/40 pt-8">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--blog-accent-2)] text-base font-bold text-[var(--blog-accent)]">
               {post.author
                 .split(" ")
                 .map((w) => w[0])
@@ -308,17 +289,52 @@ export default async function BlogPostPage({ params }: Props) {
                 {post.authorBio}
               </p>
             </div>
+            <div className="ml-auto hidden sm:block">
+              <ShareButtons title={post.title} slug={post.slug} />
+            </div>
           </div>
-
-          <div className="mt-8 pt-6 border-t border-border/40">
+          <div className="mt-6 sm:hidden">
             <ShareButtons title={post.title} slug={post.slug} />
           </div>
+
+          {/* Prev / next navigation */}
+          {(newer || older) && (
+            <nav
+              aria-label="Adjacent posts"
+              className="mt-10 grid gap-4 border-t border-border/40 pt-8 sm:grid-cols-2"
+            >
+              {older ? (
+                <Link
+                  href={`/blog/${older.slug}`}
+                  className="group rounded-xl border border-border/60 p-5 transition-colors hover:border-[var(--blog-accent)]/40"
+                >
+                  <span className="text-xs text-muted-foreground">← Older</span>
+                  <p className="mt-1 text-sm font-semibold transition-colors group-hover:text-[var(--blog-accent)]">
+                    {older.title}
+                  </p>
+                </Link>
+              ) : (
+                <span aria-hidden="true" />
+              )}
+              {newer && (
+                <Link
+                  href={`/blog/${newer.slug}`}
+                  className="group rounded-xl border border-border/60 p-5 text-right transition-colors hover:border-[var(--blog-accent)]/40"
+                >
+                  <span className="text-xs text-muted-foreground">Newer →</span>
+                  <p className="mt-1 text-sm font-semibold transition-colors group-hover:text-[var(--blog-accent)]">
+                    {newer.title}
+                  </p>
+                </Link>
+              )}
+            </nav>
+          )}
 
           <BlogCTABottom slug={slug} variant={post.ctaVariant} />
 
           {related.length > 0 && (
-            <section className="mt-14 pt-10 border-t border-border/40">
-              <h2 className="text-2xl font-bold mb-6">
+            <section className="mt-14 border-t border-border/40 pt-10">
+              <h2 className="mb-6 text-2xl font-bold">
                 Related Posts
               </h2>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -326,16 +342,16 @@ export default async function BlogPostPage({ params }: Props) {
                   <Link
                     key={r.slug}
                     href={`/blog/${r.slug}`}
-                    className="group block rounded-xl border border-border/60 bg-card/50 p-5 hover:border-[var(--blog-accent)]/50 hover:bg-card transition-all duration-200"
+                    className="group block rounded-xl border border-border/60 bg-card/50 p-5 transition-all duration-200 hover:border-[var(--blog-accent)]/50 hover:bg-card"
                   >
                     <time className="text-xs text-muted-foreground">
                       {formatBlogDate(r.date, "short")}
                     </time>
-                    <h3 className="text-sm font-semibold mt-2 group-hover:text-[var(--blog-accent)] transition-colors">
+                    <h3 className="mt-2 text-sm font-semibold transition-colors group-hover:text-[var(--blog-accent)]">
                       {r.title}
                     </h3>
                     {r.excerpt && (
-                      <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
+                      <p className="mt-2 line-clamp-2 text-xs text-muted-foreground">
                         {r.excerpt}
                       </p>
                     )}

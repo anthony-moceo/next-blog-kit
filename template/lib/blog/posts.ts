@@ -36,6 +36,8 @@ export interface BlogPost {
   };
   faq?: { question: string; answer: string }[];
   ctaVariant: string;
+  /** Estimated minutes to read, computed from the body at index time. */
+  readingTime: number;
   content: string;
 }
 
@@ -86,7 +88,17 @@ function normalizeDate(v: unknown, file: string): string {
   return v instanceof Date ? d.toISOString().slice(0, 10) : String(v);
 }
 
-function normalizeMeta(file: string, data: Record<string, unknown>): PostMeta {
+/** ~230 wpm, minimum 1 minute. Good enough for a label, cheap to compute. */
+function estimateReadingTime(content: string): number {
+  const words = content.split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 230));
+}
+
+function normalizeMeta(
+  file: string,
+  data: Record<string, unknown>,
+  content: string
+): PostMeta {
   const slug = asString(data.slug) || file.replace(/\.mdx$/, "");
   if (!SLUG_RE.test(slug) || slug === "." || slug === "..") {
     throw new Error(
@@ -130,6 +142,7 @@ function normalizeMeta(file: string, data: Record<string, unknown>): PostMeta {
     seo: seo.title || seo.description || seo.ogImage ? seo : undefined,
     faq: faq?.length ? faq : undefined,
     ctaVariant: normalizeCtaVariant(data.ctaVariant),
+    readingTime: estimateReadingTime(content),
   };
 }
 
@@ -162,8 +175,8 @@ function getIndex(): CorpusIndex {
 
   for (const file of files) {
     const raw = fs.readFileSync(path.join(BLOG_DIR, file), "utf-8");
-    const { data } = matter(raw);
-    const meta = normalizeMeta(file, data);
+    const { data, content } = matter(raw);
+    const meta = normalizeMeta(file, data, content);
     const existing = slugToFile.get(meta.slug);
     if (existing) {
       throw new Error(
@@ -188,7 +201,18 @@ export function getPostBySlug(slug: string): BlogPost | null {
   if (!file) return null;
   const raw = fs.readFileSync(path.join(BLOG_DIR, file), "utf-8");
   const { data, content } = matter(raw);
-  return { ...normalizeMeta(file, data), content };
+  return { ...normalizeMeta(file, data, content), content };
+}
+
+/** Chronologically adjacent posts for prev/next navigation (newer, older). */
+export function getAdjacentPosts(slug: string): {
+  newer: Omit<BlogPost, "content"> | null;
+  older: Omit<BlogPost, "content"> | null;
+} {
+  const posts = getAllPosts(); // newest first
+  const i = posts.findIndex((p) => p.slug === slug);
+  if (i === -1) return { newer: null, older: null };
+  return { newer: posts[i - 1] ?? null, older: posts[i + 1] ?? null };
 }
 
 export function getRelatedPosts(

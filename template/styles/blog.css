@@ -117,6 +117,38 @@
   border-bottom-color: var(--blog-accent);
 }
 
+/* Lede: the opening paragraph reads slightly larger, like a standfirst. */
+.blog-prose > p:first-of-type {
+  font-size: 1.1em;
+  line-height: 1.7;
+}
+
+/* Nicer rag on paragraphs, balanced headings (no-op in older browsers). */
+.blog-prose p {
+  text-wrap: pretty;
+}
+.blog-prose h2,
+.blog-prose h3 {
+  text-wrap: balance;
+}
+
+/* H2s carry the section rhythm: extra air above, subtle hairline. */
+.blog-prose h2 {
+  margin-top: 2.5em;
+  padding-top: 1.25em;
+  border-top: 1px solid color-mix(in oklch, currentColor 8%, transparent);
+}
+.blog-prose h2:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.blog-prose figcaption {
+  text-align: center;
+  font-size: 0.85em;
+  color: color-mix(in oklch, currentColor 62%, transparent);
+}
+
 /* ── Fallback semantic tokens (Tailwind v4) ─────────────────────────────────
  * Only for apps WITHOUT shadcn/ui-style theme tokens. Uncomment and tune.
  *
