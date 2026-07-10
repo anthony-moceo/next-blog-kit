@@ -142,7 +142,11 @@
  * regardless of the host's Tailwind theme.
  */
 
-.blog-prose a {
+/* The :not(.not-prose) guard mirrors the typography plugin: content inside a
+ * `not-prose` island (like the injected inline CTA) keeps its own styling.
+ * Without it, this unlayered rule would beat Tailwind's layered utilities
+ * and paint CTA button text accent-on-accent. */
+.blog-prose a:not(:where(.not-prose, .not-prose *)) {
   color: var(--blog-accent);
   text-decoration: underline;
   text-decoration-color: color-mix(in oklch, var(--blog-accent) 35%, transparent);
@@ -150,7 +154,7 @@
   text-underline-offset: 3px;
   transition: text-decoration-color 0.15s ease;
 }
-.blog-prose a:hover {
+.blog-prose a:not(:where(.not-prose, .not-prose *)):hover {
   text-decoration-color: var(--blog-accent);
 }
 
