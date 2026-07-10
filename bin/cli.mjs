@@ -190,6 +190,11 @@ switch (command) {
   case "skill":
     skill();
     break;
+  case "doctor": {
+    const { runDoctor, printReport } = await import("./doctor.mjs");
+    process.exit(printReport(runDoctor(cwd)));
+    break;
+  }
   default:
     console.log(`
 next-blog-kit — file-based MDX blog for Next.js (App Router)
@@ -197,6 +202,7 @@ next-blog-kit — file-based MDX blog for Next.js (App Router)
 Usage:
   npx next-blog-kit init     Copy blog routes, components, lib, and content scaffold into this repo
   npx next-blog-kit skill    Copy the blog-article authoring skill into .claude/skills/
+  npx next-blog-kit doctor   Diagnose the install: deps, wiring, frontmatter, slugs, links, taxonomy
 
 Flags:
   --force    Overwrite existing files (each is backed up to .next-blog-kit-backup/ first)

@@ -66,6 +66,22 @@ Then:
 `init` never overwrites existing files (use `--force` if you want it to), and
 detects `src/` layouts automatically.
 
+## Doctor
+
+```bash
+npx next-blog-kit doctor
+```
+
+Self-diagnoses the install and content: Next/Node versions, missing
+dependencies, kit files, the `@/*` alias, CSS wiring, invalid frontmatter,
+duplicate/reserved slugs, missing hero images, broken internal `/blog` links,
+posts orphaned from every topic hub, and empty hubs. Errors exit non-zero, so
+it also works as a CI content gate:
+
+```yaml
+- run: npx next-blog-kit doctor   # in your deploy workflow
+```
+
 ## Theming
 
 Components use two accent variables (set in `styles/blog.css`):

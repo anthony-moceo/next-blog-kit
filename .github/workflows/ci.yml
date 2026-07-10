@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: Unit tests (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm test
+
+  integration:
+    name: Install into Next.js ${{ matrix.next }} and build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        next: ["15", "latest"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: kit
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Scaffold host app
+        run: |
+          npx create-next-app@${{ matrix.next }} host --ts --tailwind --app --src-dir --eslint --import-alias "@/*" --use-npm --yes
+      - name: Install the kit
+        working-directory: host
+        run: |
+          node ../kit/bin/cli.mjs init
+          npm install next-mdx-remote gray-matter remark-gfm rss @tailwindcss/typography
+          npm install -D @types/rss
+      - name: Wire styles
+        working-directory: host
+        run: |
+          sed -i 's|@import "tailwindcss";|@import "tailwindcss";\n@plugin "@tailwindcss/typography";\n@import "../../styles/blog.css";|' src/app/globals.css
+          head -5 src/app/globals.css
+      - name: Doctor
+        working-directory: host
+        run: node ../kit/bin/cli.mjs doctor
+      - name: Build
+        working-directory: host
+        run: npm run build
+        env:
+          TZ: America/New_York

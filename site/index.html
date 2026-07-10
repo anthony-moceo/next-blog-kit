@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>next-blog-kit — a production-ready MDX blog for any Next.js app</title>
+<meta name="description" content="One command adds a complete, SEO-serious MDX blog to your Next.js App Router project: topic hubs, pagination, JSON-LD, RSS, CTAs — plus a Claude Code skill that writes articles.">
+<meta property="og:title" content="next-blog-kit">
+<meta property="og:description" content="Add a production-ready MDX blog to any Next.js app with one command. You own the code.">
+<meta property="og:type" content="website">
+<style>
+  :root {
+    --bg: #0b0d12;
+    --surface: #12151d;
+    --surface-2: #191d28;
+    --border: #262b3a;
+    --text: #e8eaf0;
+    --muted: #9aa1b5;
+    --accent: #f59e0b;
+    --accent-2: #6366f1;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  header { padding: 20px 0; border-bottom: 1px solid var(--border); }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-weight: 700; font-size: 18px; color: var(--text); }
+  .logo span { color: var(--accent); }
+  nav a { color: var(--muted); margin-left: 22px; font-size: 14px; }
+  nav a:hover { color: var(--text); text-decoration: none; }
+
+  .hero { padding: 88px 0 64px; text-align: center; }
+  .hero h1 {
+    font-size: clamp(32px, 5.5vw, 54px); line-height: 1.12; letter-spacing: -0.02em;
+    max-width: 800px; margin: 0 auto 20px;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero p.sub { color: var(--muted); font-size: 19px; max-width: 640px; margin: 0 auto 36px; }
+  .install {
+    display: inline-flex; align-items: center; gap: 14px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 20px; font-family: var(--mono); font-size: 16px;
+  }
+  .install .dollar { color: var(--accent-2); user-select: none; }
+  .install button {
+    background: var(--accent); color: #1a1207; border: 0; border-radius: 8px;
+    padding: 6px 14px; font: 600 13px/1.4 inherit; cursor: pointer;
+  }
+  .install button:hover { opacity: .9; }
+  .hero .ctas { margin-top: 28px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; padding: 11px 22px; border-radius: 10px; font-weight: 600; font-size: 15px;
+  }
+  .btn-primary { background: var(--accent); color: #1a1207; }
+  .btn-ghost { border: 1px solid var(--border); color: var(--text); }
+  .btn:hover { text-decoration: none; opacity: .92; }
+  .badges { margin-top: 34px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .badge {
+    font-size: 12px; font-family: var(--mono); color: var(--muted);
+    border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; background: var(--surface);
+  }
+
+  section { padding: 64px 0; border-top: 1px solid var(--border); }
+  h2 { font-size: 28px; letter-spacing: -0.01em; margin-bottom: 8px; }
+  .lede { color: var(--muted); margin-bottom: 36px; max-width: 640px; }
+
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px;
+  }
+  .card h3 { font-size: 16px; margin-bottom: 8px; }
+  .card h3 .ico { margin-right: 8px; }
+  .card p { color: var(--muted); font-size: 14.5px; }
+
+  .steps { counter-reset: step; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .step { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px 22px 22px 62px; }
+  .step::before {
+    counter-increment: step; content: counter(step);
+    position: absolute; left: 20px; top: 22px;
+    width: 26px; height: 26px; border-radius: 999px; background: var(--accent-2);
+    color: white; font-weight: 700; font-size: 14px; display: grid; place-items: center;
+  }
+  .step h3 { font-size: 15px; margin-bottom: 6px; }
+  .step p, .step code { color: var(--muted); font-size: 14px; }
+  code.inline { font-family: var(--mono); background: var(--surface-2); border-radius: 6px; padding: 1px 6px; font-size: 13px; color: var(--text); }
+
+  pre {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px 22px; overflow-x: auto; font-family: var(--mono); font-size: 13.5px; line-height: 1.6;
+    color: #c9d1e3;
+  }
+  pre .c { color: #5b647d; } pre .k { color: var(--accent); } pre .s { color: #7ee2a8; } pre .p { color: #8b93ff; }
+  .cols { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); align-items: start; }
+  .cols h3 { font-size: 15px; margin: 0 0 10px; color: var(--muted); font-weight: 600; }
+
+  .trust { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 26px; }
+  .trust ul { padding-left: 20px; color: var(--muted); font-size: 14.5px; }
+  .trust li { margin: 6px 0; }
+  .trust strong { color: var(--text); }
+
+  footer { border-top: 1px solid var(--border); padding: 40px 0 64px; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  footer a { color: var(--muted); margin-right: 18px; }
+  footer a:hover { color: var(--text); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo">next-blog-<span>kit</span></div>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#install">Install</a>
+      <a href="#authoring">AI authoring</a>
+      <a href="#trust">Requirements</a>
+      <a href="https://github.com/anthony-moceo/next-blog-kit">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="hero wrap">
+    <h1>Add a <em>production-ready MDX blog</em> to any Next.js app.</h1>
+    <p class="sub">
+      One command copies a complete, SEO-serious blog into your App Router project —
+      topic hubs, pagination, JSON-LD, RSS, conversion CTAs. shadcn-style: you own every line.
+    </p>
+    <div class="install">
+      <span class="dollar">$</span>
+      <span id="cmd">npx next-blog-kit init</span>
+      <button onclick="navigator.clipboard.writeText(document.getElementById('cmd').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)})">Copy</button>
+    </div>
+    <div class="ctas">
+      <a class="btn btn-primary" href="https://github.com/anthony-moceo/next-blog-kit">View source</a>
+      <a class="btn btn-ghost" href="https://github.com/anthony-moceo/next-blog-kit#readme">Read the docs</a>
+    </div>
+    <div class="badges">
+      <span class="badge">Next.js 15 / 16</span>
+      <span class="badge">Tailwind CSS 4</span>
+      <span class="badge">TypeScript strict</span>
+      <span class="badge">Zero runtime deps of its own</span>
+      <span class="badge">MIT</span>
+    </div>
+  </div>
+
+  <section id="features">
+    <div class="wrap">
+      <h2>Everything a real blog needs on day one</h2>
+      <p class="lede">Extracted from a production blog running 120+ posts, then hardened through five external review rounds.</p>
+      <div class="grid">
+        <div class="card"><h3><span class="ico">📄</span>File-based MDX</h3><p>Posts are <code class="inline">.mdx</code> files with a typed frontmatter contract — parsed with gray-matter, rendered server-side with next-mdx-remote. No CMS, no database.</p></div>
+        <div class="card"><h3><span class="ico">🗂</span>Curated topic hubs</h3><p>Tags map into a handful of canonical categories instead of one thin page per raw tag. Empty hubs 404 automatically; a build-time gate catches orphaned posts.</p></div>
+        <div class="card"><h3><span class="ico">🔍</span>Serious SEO layer</h3><p>Article, FAQPage, CollectionPage, and BreadcrumbList JSON-LD; canonical URLs; OG/Twitter metadata; RSS; a one-line sitemap helper; self-canonical paginated archives.</p></div>
+        <div class="card"><h3><span class="ico">📚</span>Article UX built in</h3><p>Auto table of contents with GitHub-style deduped anchors, breadcrumbs, author bio, share buttons, and tag-scored related posts.</p></div>
+        <div class="card"><h3><span class="ico">🧩</span>MDX components</h3><p><code class="inline">&lt;Callout&gt;</code>, <code class="inline">&lt;InfoCard&gt;</code>, <code class="inline">&lt;QuickRef&gt;</code>, <code class="inline">&lt;Verdict&gt;</code>, <code class="inline">&lt;Divider&gt;</code> — available in every post without imports.</p></div>
+        <div class="card"><h3><span class="ico">📣</span>Conversion CTAs</h3><p>Inline, bottom, and sticky-sidebar CTA blocks with named copy variants selectable per post, an analytics callback hook, and a single off switch — all in one config file.</p></div>
+        <div class="card"><h3><span class="ico">🩺</span>Self-diagnosing</h3><p><code class="inline">npx next-blog-kit doctor</code> checks deps, wiring, frontmatter, duplicate/reserved slugs, missing hero images, broken internal links, orphaned posts, and empty hubs.</p></div>
+        <div class="card"><h3><span class="ico">🛡</span>Safe installer</h3><p>All-or-nothing writes: any file collision aborts the whole install with a report. <code class="inline">--force</code> backs up every overwritten file first.</p></div>
+        <div class="card"><h3><span class="ico">✍️</span>AI authoring skill</h3><p>An optional Claude Code skill runs a full editorial pipeline — topic gate, SEO/AEO-structured draft, taxonomy check, and AI-generated hero images.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="install">
+    <div class="wrap">
+      <h2>Five-minute install</h2>
+      <p class="lede">Works with fresh <code class="inline">create-next-app</code> projects and existing apps, root or <code class="inline">src/</code> layouts.</p>
+      <div class="steps">
+        <div class="step"><h3>Copy the kit in</h3><p><code class="inline">npx next-blog-kit init</code> — routes, components, lib, content scaffold, and styles land in your repo.</p></div>
+        <div class="step"><h3>Install dependencies</h3><p><code class="inline">npm i next-mdx-remote gray-matter remark-gfm rss @tailwindcss/typography</code></p></div>
+        <div class="step"><h3>Configure once</h3><p>Edit <code class="inline">lib/blog/config.ts</code> — site name, URL, categories, CTA copy. Import <code class="inline">styles/blog.css</code> in your global CSS.</p></div>
+        <div class="step"><h3>Verify</h3><p><code class="inline">npx next-blog-kit doctor</code>, then open <code class="inline">/blog</code>. A sample post shows the full frontmatter contract.</p></div>
+      </div>
+
+      <div class="cols" style="margin-top: 36px;">
+        <div>
+          <h3>A post is just a file</h3>
+<pre><span class="c">// content/blog/my-post.mdx</span>
+<span class="p">---</span>
+<span class="k">title:</span> <span class="s">"Choosing the Right Approach"</span>
+<span class="k">date:</span> <span class="s">"2026-07-01"</span>
+<span class="k">excerpt:</span> <span class="s">"A search-result hook."</span>
+<span class="k">heroImage:</span> <span class="s">/images/blog/my-post-hero.jpg</span>
+<span class="k">tags:</span> [comparison, how-to]
+<span class="k">faq:</span>
+  - <span class="k">question:</span> <span class="s">"Reader-phrased question?"</span>
+    <span class="k">answer:</span> <span class="s">"Direct answer for rich snippets."</span>
+<span class="p">---</span>
+
+Opening that answers the search intent...
+
+&lt;Callout type=<span class="s">"tip"</span>&gt;Available without imports.&lt;/Callout&gt;</pre>
+        </div>
+        <div>
+          <h3>One config drives everything</h3>
+<pre><span class="c">// lib/blog/config.ts</span>
+<span class="k">export const</span> blogConfig = {
+  siteName: <span class="s">"My Site"</span>,
+  siteUrl: <span class="s">"https://example.com"</span>,
+  categories: [
+    { slug: <span class="s">"guides"</span>, title: <span class="s">"Guides"</span>,
+      tags: [<span class="s">"how-to"</span>, <span class="s">"tutorial"</span>] },
+  ],
+  cta: {
+    enabled: <span class="k">true</span>,
+    href: <span class="s">"/signup"</span>,
+    variants: { default: { <span class="c">/* copy */</span> } },
+  },
+  <span class="c">// optional analytics hook</span>
+  onCtaClick: (e) =&gt; posthog.capture(<span class="s">"blog_cta"</span>, e),
+};</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="authoring">
+    <div class="wrap">
+      <h2>Articles that write themselves (with editorial standards)</h2>
+      <p class="lede">
+        <code class="inline">npx next-blog-kit skill</code> installs a Claude Code skill distilled from a real
+        automated content pipeline — not a "generate text" wrapper.
+      </p>
+      <div class="grid">
+        <div class="card"><h3>1 · Topic gate</h3><p>Searches your existing corpus first and classifies the work as net-new, refresh, or consolidate — it stops rather than create a duplicate-intent URL.</p></div>
+        <div class="card"><h3>2 · Draft with rules</h3><p>1,500–2,500 word MDX following the frontmatter contract, SEO/AEO structure, internal links, FAQ + JSON-LD sync, and hard anti-AI-slop writing rules.</p></div>
+        <div class="card"><h3>3 · Taxonomy check</h3><p>Verifies tags land the post in at least one topic hub before it ships — the same gate the doctor and the runtime enforce.</p></div>
+        <div class="card"><h3>4 · Hero image</h3><p>Provider ladder: any image-gen MCP tool → Leonardo.ai → OpenAI → a detailed manual prompt. Always a 16:9 JPEG under 400 KB with real alt text.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="trust">
+    <div class="wrap">
+      <h2>Requirements &amp; trust model</h2>
+      <p class="lede">Honest constraints, stated up front.</p>
+      <div class="trust">
+        <ul>
+          <li><strong>Next.js 15+</strong> (App Router) — routes use Promise-based params. Continuously tested against 15 and latest in CI, including a timezone-shifted production build.</li>
+          <li><strong>Tailwind CSS 4</strong> + <code class="inline">@tailwindcss/typography</code>. Components use shadcn-style semantic tokens; a documented fallback block covers apps without them.</li>
+          <li><strong>A <code class="inline">@/*</code> path alias</strong> (the create-next-app default). The installer checks and tells you if it's missing.</li>
+          <li><strong>MDX is code.</strong> Posts can run arbitrary JSX at build time — by design, for content you author. Don't pipe untrusted user submissions into <code class="inline">content/blog/</code>.</li>
+          <li><strong>You own the code.</strong> This is a copy-in, not a dependency: upgrade by choice, customize without forking, remove by deleting the files.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a href="https://github.com/anthony-moceo/next-blog-kit">GitHub</a>
+      <a href="https://www.npmjs.com/package/next-blog-kit">npm</a>
+      <a href="https://github.com/anthony-moceo/next-blog-kit#readme">Documentation</a>
+      <a href="https://github.com/anthony-moceo">Built by Anthony Goodman</a>
+    </div>
+    <div>MIT licensed. Extracted from a production blog.</div>
+  </div>
+</footer>
+
+</body>
+</html>
