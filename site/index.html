@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>next-blog-kit — a production-ready MDX blog for any Next.js app</title>
+<title>nextjs-blog-kit — a production-ready MDX blog for any Next.js app</title>
 <meta name="description" content="One command adds a complete, SEO-serious MDX blog to your Next.js App Router project: topic hubs, pagination, JSON-LD, RSS, CTAs — plus a Claude Code skill that writes articles.">
-<meta property="og:title" content="next-blog-kit">
+<meta property="og:title" content="nextjs-blog-kit">
 <meta property="og:description" content="Add a production-ready MDX blog to any Next.js app with one command. You own the code.">
 <meta property="og:type" content="website">
 <style>
@@ -132,13 +132,13 @@
 
 <header>
   <div class="wrap">
-    <div class="logo">next-blog-<span>kit</span></div>
+    <div class="logo">nextjs-blog-<span>kit</span></div>
     <nav>
       <a href="#features">Features</a>
       <a href="#install">Install</a>
       <a href="#authoring">AI authoring</a>
       <a href="#trust">Requirements</a>
-      <a href="https://github.com/anthony-moceo/next-blog-kit">GitHub</a>
+      <a href="https://github.com/anthony-moceo/nextjs-blog-kit">GitHub</a>
     </nav>
   </div>
 </header>
@@ -152,12 +152,12 @@
     </p>
     <div class="install">
       <span class="dollar">$</span>
-      <span id="cmd">npx next-blog-kit init</span>
+      <span id="cmd">npx nextjs-blog-kit init</span>
       <button onclick="navigator.clipboard.writeText(document.getElementById('cmd').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)})">Copy</button>
     </div>
     <div class="ctas">
-      <a class="btn btn-primary" href="https://github.com/anthony-moceo/next-blog-kit">View source</a>
-      <a class="btn btn-ghost" href="https://github.com/anthony-moceo/next-blog-kit#readme">Read the docs</a>
+      <a class="btn btn-primary" href="https://github.com/anthony-moceo/nextjs-blog-kit">View source</a>
+      <a class="btn btn-ghost" href="https://github.com/anthony-moceo/nextjs-blog-kit#readme">Read the docs</a>
     </div>
     <div class="badges">
       <span class="badge">Next.js 15 / 16</span>
@@ -187,7 +187,7 @@
         <div class="card"><h3><span class="ico">📚</span>Article UX built in</h3><p>Auto table of contents with GitHub-style deduped anchors, breadcrumbs, author bio, share buttons, and tag-scored related posts.</p></div>
         <div class="card"><h3><span class="ico">🧩</span>MDX components</h3><p><code class="inline">&lt;Callout&gt;</code>, <code class="inline">&lt;InfoCard&gt;</code>, <code class="inline">&lt;QuickRef&gt;</code>, <code class="inline">&lt;Verdict&gt;</code>, <code class="inline">&lt;Divider&gt;</code> — available in every post without imports.</p></div>
         <div class="card"><h3><span class="ico">📣</span>Conversion CTAs</h3><p>Inline, bottom, and sticky-sidebar CTA blocks with named copy variants selectable per post, an analytics callback hook, and a single off switch — all in one config file.</p></div>
-        <div class="card"><h3><span class="ico">🩺</span>Self-diagnosing</h3><p><code class="inline">npx next-blog-kit doctor</code> checks deps, wiring, frontmatter, duplicate/reserved slugs, missing hero images, broken internal links, orphaned posts, and empty hubs.</p></div>
+        <div class="card"><h3><span class="ico">🩺</span>Self-diagnosing</h3><p><code class="inline">npx nextjs-blog-kit doctor</code> checks deps, wiring, frontmatter, duplicate/reserved slugs, missing hero images, broken internal links, orphaned posts, and empty hubs.</p></div>
         <div class="card"><h3><span class="ico">🛡</span>Safe installer</h3><p>All-or-nothing writes: any file collision aborts the whole install with a report. <code class="inline">--force</code> backs up every overwritten file first.</p></div>
         <div class="card"><h3><span class="ico">✍️</span>AI authoring skill</h3><p>An optional Claude Code skill runs a full editorial pipeline — topic gate, SEO/AEO-structured draft, taxonomy check, and AI-generated hero images.</p></div>
       </div>
@@ -199,10 +199,10 @@
       <h2>Five-minute install</h2>
       <p class="lede">Works with fresh <code class="inline">create-next-app</code> projects and existing apps, root or <code class="inline">src/</code> layouts.</p>
       <div class="steps">
-        <div class="step"><h3>Copy the kit in</h3><p><code class="inline">npx next-blog-kit init</code> — routes, components, lib, content scaffold, and styles land in your repo.</p></div>
+        <div class="step"><h3>Copy the kit in</h3><p><code class="inline">npx nextjs-blog-kit init</code> — routes, components, lib, content scaffold, and styles land in your repo.</p></div>
         <div class="step"><h3>Install dependencies</h3><p><code class="inline">npm i next-mdx-remote gray-matter remark-gfm rss @tailwindcss/typography</code></p></div>
         <div class="step"><h3>Configure once</h3><p>Edit <code class="inline">lib/blog/config.ts</code> — site name, URL, categories, CTA copy. Import <code class="inline">styles/blog.css</code> in your global CSS.</p></div>
-        <div class="step"><h3>Verify</h3><p><code class="inline">npx next-blog-kit doctor</code>, then open <code class="inline">/blog</code>. A sample post shows the full frontmatter contract.</p></div>
+        <div class="step"><h3>Verify</h3><p><code class="inline">npx nextjs-blog-kit doctor</code>, then open <code class="inline">/blog</code>. A sample post shows the full frontmatter contract.</p></div>
       </div>
 
       <div class="cols" style="margin-top: 36px;">
@@ -251,7 +251,7 @@ Opening that answers the search intent...
     <div class="wrap">
       <h2>Articles that write themselves (with editorial standards)</h2>
       <p class="lede">
-        <code class="inline">npx next-blog-kit skill</code> installs a Claude Code skill distilled from a real
+        <code class="inline">npx nextjs-blog-kit skill</code> installs a Claude Code skill distilled from a real
         automated content pipeline — not a "generate text" wrapper.
       </p>
       <div class="grid">
@@ -283,9 +283,9 @@ Opening that answers the search intent...
 <footer>
   <div class="wrap">
     <div>
-      <a href="https://github.com/anthony-moceo/next-blog-kit">GitHub</a>
-      <a href="https://www.npmjs.com/package/next-blog-kit">npm</a>
-      <a href="https://github.com/anthony-moceo/next-blog-kit#readme">Documentation</a>
+      <a href="https://github.com/anthony-moceo/nextjs-blog-kit">GitHub</a>
+      <a href="https://www.npmjs.com/package/nextjs-blog-kit">npm</a>
+      <a href="https://github.com/anthony-moceo/nextjs-blog-kit#readme">Documentation</a>
       <a href="https://github.com/anthony-moceo">Built by Anthony Moceo</a>
     </div>
     <div>MIT licensed. Extracted from a production blog.</div>

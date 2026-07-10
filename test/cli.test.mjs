@@ -79,7 +79,7 @@ test("init --force overwrites but backs up collided files first", () => {
   assert.equal(r.code, 0, r.output);
   assert.notEqual(fs.readFileSync(collide, "utf8"), "// user's own version\n", "file should be overwritten");
 
-  const backupRoot = path.join(host, ".next-blog-kit-backup");
+  const backupRoot = path.join(host, ".nextjs-blog-kit-backup");
   assert.ok(fs.existsSync(backupRoot), "backup dir should exist");
   const stamped = fs.readdirSync(backupRoot)[0];
   const backedUp = path.join(backupRoot, stamped, "src", "components", "blog", "post-grid.tsx");

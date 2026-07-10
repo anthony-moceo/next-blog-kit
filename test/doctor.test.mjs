@@ -1,4 +1,4 @@
-// Tests for `next-blog-kit doctor` against a synthetic installed host.
+// Tests for `nextjs-blog-kit doctor` against a synthetic installed host.
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";

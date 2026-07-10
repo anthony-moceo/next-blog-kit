@@ -1,4 +1,4 @@
-# next-blog-kit
+# nextjs-blog-kit
 
 A copy-in MDX blog for Next.js (App Router). One command drops a complete,
 SEO-serious blog into your repo — you own the code, shadcn-style. Plus an
@@ -36,7 +36,7 @@ Extracted from a production blog running 120+ posts.
 
 ```bash
 cd your-next-app
-npx next-blog-kit init
+npx nextjs-blog-kit init
 npm install next-mdx-remote gray-matter remark-gfm rss @tailwindcss/typography
 npm install -D @types/rss   # TypeScript projects
 ```
@@ -69,7 +69,7 @@ detects `src/` layouts automatically.
 ## Doctor
 
 ```bash
-npx next-blog-kit doctor
+npx nextjs-blog-kit doctor
 ```
 
 Self-diagnoses the install and content: Next/Node versions, missing
@@ -79,7 +79,7 @@ posts orphaned from every topic hub, and empty hubs. Errors exit non-zero, so
 it also works as a CI content gate:
 
 ```yaml
-- run: npx next-blog-kit doctor   # in your deploy workflow
+- run: npx nextjs-blog-kit doctor   # in your deploy workflow
 ```
 
 ## Theming
@@ -181,7 +181,7 @@ ctaVariant: default              # any variant key from config
 ## The authoring skill (Claude Code)
 
 ```bash
-npx next-blog-kit skill
+npx nextjs-blog-kit skill
 ```
 
 Installs `.claude/skills/blog-article/` into your repo. Then in Claude Code:

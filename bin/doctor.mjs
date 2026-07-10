@@ -1,4 +1,4 @@
-// next-blog-kit doctor — self-diagnosing install checks.
+// nextjs-blog-kit doctor — self-diagnosing install checks.
 //
 // Zero-dependency by design: frontmatter and config are read with small
 // purpose-built parsers that cover the shapes the kit itself generates. When a
@@ -162,7 +162,7 @@ export function runDoctor(cwd) {
   ];
   const missingFiles = required.filter(([rel]) => !fs.existsSync(path.join(codeRoot, rel)));
   if (missingFiles.length) {
-    err(`Missing kit files: ${missingFiles.map(([rel]) => path.join(srcDir, rel)).join(", ")} — re-run \`npx next-blog-kit init\`.`);
+    err(`Missing kit files: ${missingFiles.map(([rel]) => path.join(srcDir, rel)).join(", ")} — re-run \`npx nextjs-blog-kit init\`.`);
   } else {
     pass(`Kit files present${srcDir ? " (src/ layout)" : ""}`);
   }
@@ -308,7 +308,7 @@ export function runDoctor(cwd) {
 }
 
 export function printReport({ ok, warnings, errors }) {
-  console.log("\nnext-blog-kit doctor\n");
+  console.log("\nnextjs-blog-kit doctor\n");
   for (const msg of ok) console.log(`  ✓ ${msg}`);
   for (const msg of warnings) console.log(`  ⚠ ${msg}`);
   for (const msg of errors) console.log(`  ✖ ${msg}`);

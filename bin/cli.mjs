@@ -1,15 +1,15 @@
 #!/usr/bin/env node
-// next-blog-kit CLI — shadcn-style copy-in installer.
+// nextjs-blog-kit CLI — shadcn-style copy-in installer.
 //
-//   npx next-blog-kit init     copy the blog (routes, components, lib, content) into this repo
-//   npx next-blog-kit skill    copy the blog-article authoring skill into .claude/skills/
+//   npx nextjs-blog-kit init     copy the blog (routes, components, lib, content) into this repo
+//   npx nextjs-blog-kit skill    copy the blog-article authoring skill into .claude/skills/
 //
 // The copied code is yours: edit it freely.
 //
 // Write discipline: every run preflights the FULL destination set before
 // touching the filesystem. Any collision aborts the whole run with a report —
 // no partial installs. `--force` proceeds instead, backing up each overwritten
-// file to .next-blog-kit-backup/ first.
+// file to .nextjs-blog-kit-backup/ first.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -65,14 +65,14 @@ function executePlan(plan, label) {
     console.error(`\n✖ ${label}: ${collisions.length} file(s) already exist — nothing was written.\n`);
     for (const p of collisions) console.error(`  ! ${path.relative(cwd, p.dest)}`);
     console.error(
-      `\n  Re-run with --force to overwrite (existing files are backed up to .next-blog-kit-backup/ first),\n  or move the conflicting files out of the way.`
+      `\n  Re-run with --force to overwrite (existing files are backed up to .nextjs-blog-kit-backup/ first),\n  or move the conflicting files out of the way.`
     );
     process.exit(1);
   }
 
   let backupDir = null;
   if (collisions.length) {
-    backupDir = path.join(cwd, ".next-blog-kit-backup", new Date().toISOString().replace(/[:.]/g, "-"));
+    backupDir = path.join(cwd, ".nextjs-blog-kit-backup", new Date().toISOString().replace(/[:.]/g, "-"));
     for (const p of collisions) {
       const rel = path.relative(cwd, p.dest);
       const backupPath = path.join(backupDir, rel);
@@ -103,11 +103,11 @@ function checkHost() {
   const major = parseInt(String(deps.next).replace(/^[^\d]*/, ""), 10);
   if (Number.isInteger(major) && major < 15) {
     console.warn(
-      `⚠ next-blog-kit targets Next.js 15+ (Promise-based route params); found next@${deps.next}. The copied routes will fail type checking on Next 14.`
+      `⚠ nextjs-blog-kit targets Next.js 15+ (Promise-based route params); found next@${deps.next}. The copied routes will fail type checking on Next 14.`
     );
   }
   const appDir = fs.existsSync(path.join(cwd, "src", "app")) || fs.existsSync(path.join(cwd, "app"));
-  if (!appDir) fail("No app/ directory found — next-blog-kit requires the App Router.");
+  if (!appDir) fail("No app/ directory found — nextjs-blog-kit requires the App Router.");
   return deps;
 }
 
@@ -144,7 +144,7 @@ function init() {
 
   const { written, backupDir } = executePlan(plan, "init");
 
-  console.log(`\nnext-blog-kit init — ${written.length} files written${srcDir ? " (src/ layout detected)" : ""}\n`);
+  console.log(`\nnextjs-blog-kit init — ${written.length} files written${srcDir ? " (src/ layout detected)" : ""}\n`);
   for (const f of written) console.log(`  + ${f}`);
   if (backupDir) {
     console.log(`\n  Overwritten files were backed up to ${path.relative(cwd, backupDir)}/`);
@@ -165,7 +165,7 @@ function init() {
     console.log('\n  ⚠ No "@/*" path alias found in tsconfig.json — the copied files import via "@/".');
     console.log('    Add:  "paths": { "@/*": ["./' + (srcDir ? "src/" : "") + '*"] }  under compilerOptions.');
   }
-  console.log("\n  Optional: npx next-blog-kit skill   (installs the blog-article authoring skill for Claude Code)\n");
+  console.log("\n  Optional: npx nextjs-blog-kit skill   (installs the blog-article authoring skill for Claude Code)\n");
 }
 
 function skill() {
@@ -175,7 +175,7 @@ function skill() {
 
   const { written, backupDir } = executePlan(plan, "skill");
 
-  console.log(`\nnext-blog-kit skill — ${written.length} files written to .claude/skills/blog-article`);
+  console.log(`\nnextjs-blog-kit skill — ${written.length} files written to .claude/skills/blog-article`);
   for (const f of written) console.log(`  + ${f}`);
   if (backupDir) {
     console.log(`  Overwritten files were backed up to ${path.relative(cwd, backupDir)}/`);
@@ -197,14 +197,14 @@ switch (command) {
   }
   default:
     console.log(`
-next-blog-kit — file-based MDX blog for Next.js (App Router)
+nextjs-blog-kit — file-based MDX blog for Next.js (App Router)
 
 Usage:
-  npx next-blog-kit init     Copy blog routes, components, lib, and content scaffold into this repo
-  npx next-blog-kit skill    Copy the blog-article authoring skill into .claude/skills/
-  npx next-blog-kit doctor   Diagnose the install: deps, wiring, frontmatter, slugs, links, taxonomy
+  npx nextjs-blog-kit init     Copy blog routes, components, lib, and content scaffold into this repo
+  npx nextjs-blog-kit skill    Copy the blog-article authoring skill into .claude/skills/
+  npx nextjs-blog-kit doctor   Diagnose the install: deps, wiring, frontmatter, slugs, links, taxonomy
 
 Flags:
-  --force    Overwrite existing files (each is backed up to .next-blog-kit-backup/ first)
+  --force    Overwrite existing files (each is backed up to .nextjs-blog-kit-backup/ first)
 `);
 }

@@ -1,11 +1,11 @@
 ---
 name: blog-article
-description: Write and publish a blog article for a next-blog-kit blog — topic gate, SEO/AEO-structured MDX draft, taxonomy check, and optional AI-generated hero image. Use when the user asks to write, draft, or publish a blog post or article.
+description: Write and publish a blog article for a nextjs-blog-kit blog — topic gate, SEO/AEO-structured MDX draft, taxonomy check, and optional AI-generated hero image. Use when the user asks to write, draft, or publish a blog post or article.
 ---
 
 # Blog Article Creation
 
-Create one publish-ready MDX article for a repo using next-blog-kit
+Create one publish-ready MDX article for a repo using nextjs-blog-kit
 (file-based blog: `content/blog/*.mdx` + `public/images/blog/*`).
 
 Work through the five phases in order. Do not skip the topic gate — the most

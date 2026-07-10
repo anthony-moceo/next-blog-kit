@@ -1,4 +1,4 @@
-// blog.config — the single place you customize next-blog-kit.
+// blog.config — the single place you customize nextjs-blog-kit.
 //
 // Everything the blog renders (site identity, taxonomy, CTAs, analytics) is
 // driven from this file. The rest of lib/blog and components/blog should not
