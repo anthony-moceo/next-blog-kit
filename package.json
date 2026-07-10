@@ -8,7 +8,7 @@
     "next-blog-kit": "bin/cli.mjs"
   },
   "scripts": {
-    "test": "node --test test/"
+    "test": "node --test"
   },
   "files": [
     "bin",
