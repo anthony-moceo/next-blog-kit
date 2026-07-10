@@ -1,0 +1,31 @@
+{
+  "name": "next-blog-kit",
+  "version": "0.1.0",
+  "description": "Copy-in MDX blog for Next.js App Router: topic hubs, pagination, JSON-LD, RSS, sitemap, CTAs — plus a Claude Code skill for writing articles with optional AI hero images.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "next-blog-kit": "bin/cli.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/"
+  },
+  "files": [
+    "bin",
+    "template",
+    "skill",
+    "README.md"
+  ],
+  "keywords": [
+    "nextjs",
+    "blog",
+    "mdx",
+    "seo",
+    "app-router",
+    "claude-code",
+    "tailwind"
+  ],
+  "engines": {
+    "node": ">=18.17"
+  }
+}

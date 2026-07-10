@@ -1,0 +1,40 @@
+/* next-blog-kit theme hooks.
+ *
+ * Import this once in your root layout or globals.css:
+ *   @import "../styles/blog.css";    (adjust the path to where it was copied)
+ *
+ * The blog components use two kinds of design tokens:
+ *
+ * 1. Blog accent variables (defined here — override to match your brand):
+ *    --blog-accent             primary accent (links, highlights, buttons)
+ *    --blog-accent-foreground  text color on top of --blog-accent
+ *    --blog-accent-2           secondary accent (tinted surfaces)
+ *
+ * 2. Semantic Tailwind tokens (border, card, foreground, muted-foreground).
+ *    If your app already uses shadcn/ui-style tokens, you have these and
+ *    nothing more is needed. Otherwise uncomment the fallback block below.
+ */
+
+:root {
+  --blog-accent: #f59e0b;
+  --blog-accent-foreground: #1a1207;
+  --blog-accent-2: #6366f1;
+}
+
+/* ── Fallback semantic tokens (Tailwind v4) ─────────────────────────────
+ * Only for apps WITHOUT shadcn/ui-style theme tokens. Uncomment and tune.
+ *
+ * @theme {
+ *   --color-border: oklch(0.55 0 0 / 30%);
+ *   --color-card: oklch(0.98 0 0);
+ *   --color-foreground: oklch(0.2 0 0);
+ *   --color-muted-foreground: oklch(0.5 0 0);
+ * }
+ * @media (prefers-color-scheme: dark) {
+ *   :root {
+ *     --color-card: oklch(0.2 0 0);
+ *     --color-foreground: oklch(0.95 0 0);
+ *     --color-muted-foreground: oklch(0.7 0 0);
+ *   }
+ * }
+ */

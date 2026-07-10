@@ -1,0 +1,73 @@
+---
+title: "Hello World: Your Blog Is Live"
+slug: hello-world
+date: "2026-01-01"
+author: The Team
+excerpt: "A sample post showing every feature of next-blog-kit — frontmatter, MDX components, FAQ schema, and topic hubs."
+heroImage: /images/blog/hello-world-hero.jpg
+heroAlt: "Placeholder hero image for the hello world post."
+tags:
+  - how-to
+  - tutorial
+seo:
+  title: "Hello World — next-blog-kit sample post"
+  description: "A sample post demonstrating the next-blog-kit frontmatter contract and MDX components."
+faq:
+  - question: "How do I add a new post?"
+    answer: "Drop a .mdx file in content/blog with the frontmatter shown in this sample, add a hero image to public/images/blog, and rebuild."
+  - question: "How do topic hubs work?"
+    answer: "Tags in frontmatter are mapped to the categories you define in lib/blog/config.ts. Every post should map to at least one hub."
+ctaVariant: default
+---
+
+This is a sample post. It exists so the blog renders something on first install
+and so you can see the frontmatter contract in action. Delete it once you have
+real content.
+
+The first three paragraphs render before the inline CTA. Use them to answer the
+reader's search intent directly — search engines and AI answer engines both
+reward pages that get to the point.
+
+Everything below the third paragraph renders after the inline CTA block.
+
+## Using the MDX components
+
+Four components are available in every post without imports:
+
+<Callout type="tip">
+Callouts come in `tip`, `warning`, and `info` flavors. Use them for asides that
+would break the flow of the prose.
+</Callout>
+
+<InfoCard
+  name="next-blog-kit"
+  bestFor="Next.js projects that want a file-based MDX blog in one command"
+  facts={[{ label: "Price", value: "Free" }, { label: "Setup", value: "~5 min" }]}
+  rating="low"
+  ratingLabel="Complexity"
+>
+  InfoCard works well in comparison and review posts — one card per product.
+</InfoCard>
+
+<QuickRef>
+1. **Write** a .mdx file in content/blog
+2. **Tag it** so it maps to a topic hub
+3. **Add a hero** image at public/images/blog/{"{slug}"}-hero.jpg
+</QuickRef>
+
+## Frequently Asked Questions
+
+### How do I add a new post?
+
+Drop a `.mdx` file in `content/blog` with the frontmatter shown in this sample,
+add a hero image, and rebuild.
+
+### How do topic hubs work?
+
+Tags in frontmatter are mapped to the categories you define in
+`lib/blog/config.ts`. Every post should map to at least one hub.
+
+<Verdict>
+Keep the visible FAQ section and the frontmatter `faq` array in sync — the
+frontmatter feeds FAQPage JSON-LD, the visible section feeds readers.
+</Verdict>
