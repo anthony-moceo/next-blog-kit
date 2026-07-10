@@ -21,7 +21,7 @@ function CategoryChip({ post }: { post: PostCard }) {
   return (
     <Link
       href={`/blog/topic/${primary.slug}`}
-      className="inline-block rounded-full bg-[var(--blog-accent-2)]/15 px-2.5 py-0.5 text-xs font-medium text-[var(--blog-accent)] transition-colors hover:bg-[var(--blog-accent-2)]/30"
+      className="inline-block rounded-full bg-[var(--blog-accent-2)]/12 px-2.5 py-0.5 text-xs font-medium text-[var(--blog-accent-2)] transition-colors hover:bg-[var(--blog-accent-2)]/25"
     >
       {primary.title}
     </Link>
@@ -31,7 +31,7 @@ function CategoryChip({ post }: { post: PostCard }) {
 /** Large treatment for the newest post — image beside text on wide screens. */
 export function FeaturedPost({ post }: { post: PostCard }) {
   return (
-    <article className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card transition-all duration-200 hover:border-[var(--blog-accent)]/40 hover:shadow-[0_8px_30px_-12px_var(--blog-accent-2)]">
+    <article className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card transition-all duration-200 hover:border-[var(--blog-accent)]/45 hover:shadow-lg hover:shadow-black/5">
       <div className="grid md:grid-cols-2">
         {post.heroImage && (
           <div className="relative h-56 w-full overflow-hidden md:h-full md:min-h-72">
@@ -79,7 +79,7 @@ export function PostGrid({ posts }: { posts: PostCard[] }) {
       {posts.map((post) => (
         <article
           key={post.slug}
-          className="group relative flex flex-col overflow-hidden rounded-xl border border-border/60 bg-card transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--blog-accent)]/40 hover:shadow-[0_8px_24px_-12px_var(--blog-accent-2)]"
+          className="group relative flex flex-col overflow-hidden rounded-xl border border-border/60 bg-card transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--blog-accent)]/45 hover:shadow-lg hover:shadow-black/5"
         >
           {post.heroImage && (
             <div className="relative h-44 w-full overflow-hidden">

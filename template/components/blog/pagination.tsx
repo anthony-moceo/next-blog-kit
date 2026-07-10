@@ -33,7 +33,7 @@ export function Pagination({
           <span
             key={p}
             aria-current="page"
-            className="rounded-md border border-[var(--blog-accent)]/50 bg-[var(--blog-accent-2)]/20 px-3 py-1.5 text-sm font-semibold text-[var(--blog-accent)]"
+            className="rounded-md border border-[var(--blog-accent)]/50 bg-[var(--blog-accent)]/10 px-3 py-1.5 text-sm font-semibold text-[var(--blog-accent)]"
           >
             {p}
           </span>

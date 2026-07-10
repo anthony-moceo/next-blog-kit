@@ -8,7 +8,7 @@ export function TopicNav({ activeSlug }: { activeSlug?: string }) {
   const chip = (active: boolean) =>
     `rounded-full border px-3 py-1 text-sm transition-colors ${
       active
-        ? "border-[var(--blog-accent)]/60 bg-[var(--blog-accent-2)]/25 text-[var(--blog-accent)]"
+        ? "border-[var(--blog-accent)]/60 bg-[var(--blog-accent)]/10 font-medium text-[var(--blog-accent)]"
         : "border-border/60 text-muted-foreground hover:border-[var(--blog-accent)]/50 hover:text-foreground"
     }`;
 

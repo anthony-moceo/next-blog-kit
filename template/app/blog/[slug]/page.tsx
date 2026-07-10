@@ -224,7 +224,7 @@ export default async function BlogPostPage({ params }: Props) {
                   <Link
                     key={c.slug}
                     href={`/blog/topic/${c.slug}`}
-                    className="rounded-full bg-[var(--blog-accent-2)]/15 px-2.5 py-1 text-xs font-medium text-[var(--blog-accent)] transition-colors hover:bg-[var(--blog-accent-2)]/30"
+                    className="rounded-full bg-[var(--blog-accent-2)]/12 px-2.5 py-1 text-xs font-medium text-[var(--blog-accent-2)] transition-colors hover:bg-[var(--blog-accent-2)]/25"
                   >
                     {c.title}
                   </Link>
@@ -274,7 +274,7 @@ export default async function BlogPostPage({ params }: Props) {
 
           {/* Author section */}
           <div className="mt-12 flex items-center gap-4 border-t border-border/40 pt-8">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--blog-accent-2)] text-base font-bold text-[var(--blog-accent)]">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--blog-accent-2)] text-base font-bold text-[var(--blog-accent-2-foreground)]">
               {post.author
                 .split(" ")
                 .map((w) => w[0])

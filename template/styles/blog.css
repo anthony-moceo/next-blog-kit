@@ -15,45 +15,125 @@
  * rosewood rose + purple    bold, lifestyle
  * glacier  sky + slate      cool, minimal
  *
- * Or ignore the presets and set the three variables yourself:
- *   --blog-accent             primary accent (links, highlights, buttons)
- *   --blog-accent-foreground  text color on top of --blog-accent
- *   --blog-accent-2           secondary accent (tinted surfaces, chips)
+ * Or ignore the presets and set the four variables yourself (light and dark):
+ *   --blog-accent               primary accent (links, buttons, active states)
+ *   --blog-accent-foreground    text color on top of --blog-accent
+ *   --blog-accent-2             secondary accent (category chips, tinted surfaces)
+ *   --blog-accent-2-foreground  text color on top of solid --blog-accent-2
  *
  * The components also use semantic Tailwind tokens (border, card, foreground,
  * muted-foreground). shadcn/ui-style apps already have these; otherwise
  * uncomment the fallback block at the bottom.
  */
 
+/* Each preset defines four variables, in light AND dark values. The light
+ * values are deeper (700-ish) so accent text stays readable on white; the
+ * dark values are brighter (400/500) so it pops on near-black. Class-based
+ * dark mode (`.dark` on <html>) and media-query dark mode both work.
+ *
+ * Design rule the components follow: one hue per element. --blog-accent for
+ * links, buttons, and active states; --blog-accent-2 for category chips and
+ * tinted surfaces, always with its own foreground. Never both in one element.
+ */
+
 :root,
 [data-blog-theme="ember"] {
+  --blog-accent: #b45309;
+  --blog-accent-foreground: #ffffff;
+  --blog-accent-2: #4f46e5;
+  --blog-accent-2-foreground: #ffffff;
+}
+[data-blog-theme="aurora"] {
+  --blog-accent: #7c3aed;
+  --blog-accent-foreground: #ffffff;
+  --blog-accent-2: #0891b2;
+  --blog-accent-2-foreground: #ffffff;
+}
+[data-blog-theme="meadow"] {
+  --blog-accent: #047857;
+  --blog-accent-foreground: #ffffff;
+  --blog-accent-2: #0284c7;
+  --blog-accent-2-foreground: #ffffff;
+}
+[data-blog-theme="rosewood"] {
+  --blog-accent: #be123c;
+  --blog-accent-foreground: #ffffff;
+  --blog-accent-2: #9333ea;
+  --blog-accent-2-foreground: #ffffff;
+}
+[data-blog-theme="glacier"] {
+  --blog-accent: #0369a1;
+  --blog-accent-foreground: #ffffff;
+  --blog-accent-2: #475569;
+  --blog-accent-2-foreground: #ffffff;
+}
+
+/* Dark values, media-query strategy. */
+@media (prefers-color-scheme: dark) {
+  :root,
+  [data-blog-theme="ember"] {
+    --blog-accent: #f59e0b;
+    --blog-accent-foreground: #1a1207;
+    --blog-accent-2: #818cf8;
+    --blog-accent-2-foreground: #1e1b4b;
+  }
+  [data-blog-theme="aurora"] {
+    --blog-accent: #a78bfa;
+    --blog-accent-foreground: #2e1065;
+    --blog-accent-2: #22d3ee;
+    --blog-accent-2-foreground: #083344;
+  }
+  [data-blog-theme="meadow"] {
+    --blog-accent: #34d399;
+    --blog-accent-foreground: #022c22;
+    --blog-accent-2: #38bdf8;
+    --blog-accent-2-foreground: #082f49;
+  }
+  [data-blog-theme="rosewood"] {
+    --blog-accent: #fb7185;
+    --blog-accent-foreground: #4c0519;
+    --blog-accent-2: #c084fc;
+    --blog-accent-2-foreground: #3b0764;
+  }
+  [data-blog-theme="glacier"] {
+    --blog-accent: #38bdf8;
+    --blog-accent-foreground: #04121c;
+    --blog-accent-2: #94a3b8;
+    --blog-accent-2-foreground: #0f172a;
+  }
+}
+
+/* Dark values, class strategy (`.dark` on <html>, shadcn/next-themes style). */
+.dark,
+.dark[data-blog-theme="ember"] {
   --blog-accent: #f59e0b;
   --blog-accent-foreground: #1a1207;
-  --blog-accent-2: #6366f1;
+  --blog-accent-2: #818cf8;
+  --blog-accent-2-foreground: #1e1b4b;
 }
-
-[data-blog-theme="aurora"] {
-  --blog-accent: #8b5cf6;
-  --blog-accent-foreground: #f5f3ff;
-  --blog-accent-2: #06b6d4;
+.dark[data-blog-theme="aurora"] {
+  --blog-accent: #a78bfa;
+  --blog-accent-foreground: #2e1065;
+  --blog-accent-2: #22d3ee;
+  --blog-accent-2-foreground: #083344;
 }
-
-[data-blog-theme="meadow"] {
-  --blog-accent: #10b981;
-  --blog-accent-foreground: #04120c;
-  --blog-accent-2: #0ea5e9;
+.dark[data-blog-theme="meadow"] {
+  --blog-accent: #34d399;
+  --blog-accent-foreground: #022c22;
+  --blog-accent-2: #38bdf8;
+  --blog-accent-2-foreground: #082f49;
 }
-
-[data-blog-theme="rosewood"] {
-  --blog-accent: #f43f5e;
-  --blog-accent-foreground: #fff1f2;
-  --blog-accent-2: #a855f7;
+.dark[data-blog-theme="rosewood"] {
+  --blog-accent: #fb7185;
+  --blog-accent-foreground: #4c0519;
+  --blog-accent-2: #c084fc;
+  --blog-accent-2-foreground: #3b0764;
 }
-
-[data-blog-theme="glacier"] {
+.dark[data-blog-theme="glacier"] {
   --blog-accent: #38bdf8;
   --blog-accent-foreground: #04121c;
-  --blog-accent-2: #64748b;
+  --blog-accent-2: #94a3b8;
+  --blog-accent-2-foreground: #0f172a;
 }
 
 /* ── Base article polish ────────────────────────────────────────────────────

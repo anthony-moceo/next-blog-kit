@@ -55,7 +55,7 @@ export function InfoCard({
   const dots = rating ? ratingDots[rating] || 0 : 0;
   return (
     <div className="blog-info-card my-8 rounded-xl border border-border/50 bg-card/60 backdrop-blur-sm overflow-hidden">
-      <div className="px-5 py-4 border-b border-border/30 bg-[var(--blog-accent-2)]/10">
+      <div className="px-5 py-4 border-b border-border/30 bg-[var(--blog-accent)]/[0.06]">
         <h4 className="text-lg font-bold text-[var(--blog-accent)] m-0">{name}</h4>
         {bestFor && <p className="text-sm text-muted-foreground mt-1 mb-0 italic">{bestFor}</p>}
       </div>

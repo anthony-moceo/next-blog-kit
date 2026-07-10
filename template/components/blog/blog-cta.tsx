@@ -32,7 +32,7 @@ export function BlogCTAInline({
   if (!blogConfig.cta.enabled) return null;
   const c = copyFor(variant);
   return (
-    <aside className="my-10 rounded-xl border border-[var(--blog-accent)]/20 bg-[var(--blog-accent-2)]/10 p-6 text-center backdrop-blur-sm">
+    <aside className="my-10 rounded-xl border border-[var(--blog-accent)]/25 bg-[var(--blog-accent)]/[0.06] p-6 text-center backdrop-blur-sm">
       <p className="text-lg font-bold text-foreground">{c.inlineHeading}</p>
       <p className="mt-1 text-sm text-muted-foreground">{c.inlineBody}</p>
       <Link
@@ -56,7 +56,7 @@ export function BlogCTABottom({
   if (!blogConfig.cta.enabled) return null;
   const c = copyFor(variant);
   return (
-    <aside className="mt-14 rounded-2xl border border-[var(--blog-accent)]/30 bg-gradient-to-br from-[var(--blog-accent-2)]/20 to-[var(--blog-accent-2)]/5 px-8 py-10 text-center">
+    <aside className="mt-14 rounded-2xl border border-[var(--blog-accent)]/30 bg-[var(--blog-accent)]/[0.07] px-8 py-10 text-center">
       <h2 className="text-2xl font-bold text-foreground sm:text-3xl">
         {c.bottomHeading}
       </h2>
@@ -92,7 +92,7 @@ export function BlogCTASidebar({
   const c = copyFor(variant);
   return (
     <aside className="hidden xl:block sticky top-24 w-56 shrink-0 self-start ml-8">
-      <div className="rounded-xl border border-[var(--blog-accent)]/20 bg-[var(--blog-accent-2)]/10 p-5 text-center backdrop-blur-sm">
+      <div className="rounded-xl border border-[var(--blog-accent)]/25 bg-[var(--blog-accent)]/[0.06] p-5 text-center backdrop-blur-sm">
         <p className="text-sm font-bold text-foreground">{c.sidebarHeading}</p>
         <p className="mt-1 text-xs text-muted-foreground">{c.sidebarBody}</p>
         <Link

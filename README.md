@@ -105,14 +105,20 @@ on `<html>` in your root layout:
 | `rosewood` | rose + purple | bold, lifestyle |
 | `glacier` | sky + slate | cool, minimal |
 
-Each preset just sets three variables — override them directly for a custom
-brand:
+Every preset ships **light and dark values** (media-query and `.dark`-class
+strategies both supported) — deep 700-tier accents for readability on white,
+bright 400-tier for pop on dark. Each preset sets four variables; override
+them directly for a custom brand:
 
 | Variable | Role |
 |---|---|
-| `--blog-accent` | links, highlights, buttons |
+| `--blog-accent` | links, buttons, active states |
 | `--blog-accent-foreground` | text on accent-colored buttons |
-| `--blog-accent-2` | tinted surfaces (category chips, CTA backgrounds) |
+| `--blog-accent-2` | category chips, tinted surfaces |
+| `--blog-accent-2-foreground` | text on solid accent-2 (author avatar) |
+
+Components follow a one-hue-per-element rule: accent and accent-2 never mix
+in the same element, so any palette pairing stays clean.
 
 `blog.css` also includes a base polish layer scoped to `.blog-prose`
 (underline treatment, TOC scroll margins, accent blockquotes, inline-code
